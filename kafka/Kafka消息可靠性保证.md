@@ -162,6 +162,12 @@ consumer.commitOffset();
 
 对于这个问题，Kafka 0.11.0 的版本之前并没有什么解决方案，不过**从 0.11.0 的版本开始**，Kafka 给每个生产端生成一个唯一的 ID，并且在每条消息中生成一个 sequence num，sequence num 是递增且唯一的，这样就能对消息去重，达到一个生产端不重复发送一条消息的目的。
 
+> 在0.11之后，指定Producer幂等性的方法很简单，仅需要设置一个参数即可，即props.put(“enable.idempotence”, ture)，或props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG， true)。
+>
+> 但是幂等性Producer只能保证单分区、单会话上的消息幂等性。如果要保证跨分区、跨会话间的幂等性，则需要使用事务型Producer，但是事务型Producer性能更差，对于吞吐量有要求不会使用。
+
+
+
 服务端：无需特殊配制
 ----------
 
